@@ -17,14 +17,13 @@ class FileReader:
         and return them as one string.
         """
         opened_file = open(self.filename)
-        text = opened_file.read()
-        return text
+        self.text = opened_file.read()
+        return self.text
 
 
 class WordList:
     def __init__(self, text):
         self.text = text
-        pass
 
     def extract_words(self):
         """
@@ -32,14 +31,23 @@ class WordList:
         is responsible for lowercasing all words and stripping
         them of punctuation.
         """
-        raise NotImplementedError("WordList.extract_words")
+        no_punctuation = ""
+        for character in self.text:
+            if character not in string.punctuation:
+                no_punctuation = no_punctuation + character
+        
+        self.new_text = no_punctuation.lower().split()
+
+        return self.new_text
 
     def remove_stop_words(self):
         """
         Removes all stop words from our word list. Expected to
         be run after extract_words.
         """
-        raise NotImplementedError("WordList.remove_stop_words")
+        self.filtered_text = [text for text in self.new_text if not text in STOP_WORDS]
+
+        return self.filtered_text
 
     def get_freqs(self):
         """
@@ -48,7 +56,6 @@ class WordList:
         extract_words and remove_stop_words. The data structure
         could be a dictionary or another type of object.
         """
-        raise NotImplementedError("WordList.get_freqs")
 
 
 class FreqPrinter:
