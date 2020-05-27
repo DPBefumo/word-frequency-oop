@@ -56,11 +56,20 @@ class WordList:
         extract_words and remove_stop_words. The data structure
         could be a dictionary or another type of object.
         """
+        word_freq = {}
+        for word in self.filtered_text:
+            word_freq[word] = word_freq.get(word, 0) +1
 
+        word_f = {key: value for key, value in word_freq.items() if value >=6}
+
+        self.alpha_freq = dict(sorted(word_f.items()), key=lambda seq:seq[0], reverse=True)
+
+        return self.alpha_freq
 
 class FreqPrinter:
     def __init__(self, freqs):
-        pass
+        self.freqs = freqs
+        print(self.freqs)
 
     def print_freqs(self):
         """
@@ -79,8 +88,9 @@ class FreqPrinter:
        rights | 6    ******
         right | 6    ******
         """
-        raise NotImplementedError("FreqPrinter.print_freqs")
 
+        for word, count in self.freqs:
+            print (word.rjust(15) , ' | ', str(count).ljust(2), count * ('*'))
 
 if __name__ == "__main__":
     import argparse
