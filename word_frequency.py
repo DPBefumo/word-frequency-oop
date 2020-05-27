@@ -60,16 +60,11 @@ class WordList:
         for word in self.filtered_text:
             word_freq[word] = word_freq.get(word, 0) +1
 
-        word_f = {key: value for key, value in word_freq.items() if value >=6}
-
-        self.alpha_freq = dict(sorted(word_f.items()), key=lambda seq:seq[0], reverse=True)
-
-        return self.alpha_freq
+        return word_freq
 
 class FreqPrinter:
     def __init__(self, freqs):
         self.freqs = freqs
-        print(self.freqs)
 
     def print_freqs(self):
         """
@@ -88,9 +83,12 @@ class FreqPrinter:
        rights | 6    ******
         right | 6    ******
         """
+        word_freq = {key: value for key, value in self.freqs.items() if value >=6}
+    
+        freq_text = sorted(word_freq.items(), key=lambda seq:seq[0], reverse=False)
 
-        for word, count in self.freqs:
-            print (word.rjust(15) , ' | ', str(count).ljust(2), count * ('*'))
+        for key, value in freq_text:
+            print (key.rjust(15) , ' | ', str(value).ljust(2), value * ('*'))
 
 if __name__ == "__main__":
     import argparse
